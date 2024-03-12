@@ -158,7 +158,7 @@ def main(args):
             "h": im.shape[0],
         }
 
-        print(boxes.shape, segments.shape, keypoints.shape, metadata)
+        print(boxes, segments, keypoints, metadata)
 
         np.savez_compressed(
             out_name,
