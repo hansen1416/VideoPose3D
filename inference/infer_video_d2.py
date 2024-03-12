@@ -158,7 +158,10 @@ def main(args):
             "h": im.shape[0],
         }
 
-        print(boxes, segments, keypoints, metadata)
+        # avoid ValueError: setting an array element with a sequence.
+        # The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (5, 2) + inhomogeneous part.
+        boxes = np.array(boxes, dtype=object)
+        keypoints = np.array(keypoints, dtype=object)
 
         np.savez_compressed(
             out_name,
