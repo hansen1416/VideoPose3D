@@ -115,11 +115,13 @@ if __name__ == "__main__":
         metadata["video_metadata"][canonical_name] = video_metadata
 
     print("Saving...")
+
+    if not os.path.exists("custom_dataset"):
+        os.makedirs("custom_dataset")
+
     np.savez_compressed(
-        output_prefix_2d + args.output, positions_2d=output, metadata=metadata
+        os.path.join("custom_dataset", output_prefix_2d + args.output),
+        positions_2d=output,
+        metadata=metadata,
     )
     print("Done.")
-
-    """
-    python prepare_data_2d_custom.py -i /path/to/detections/output_directory -o myvideos
-    """

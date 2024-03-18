@@ -176,11 +176,3 @@ if __name__ == "__main__":
     setup_logger()
     args = parse_args()
     main(args)
-
-    """
-    python infer_video_d2.py \
-        --cfg COCO-Keypoints/keypoint_rcnn_R_101_FPN_3x.yaml \
-        --output-dir output_directory \
-        --image-ext mp4 \
-        input_directory
-    """
