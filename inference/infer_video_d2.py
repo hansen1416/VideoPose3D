@@ -112,9 +112,14 @@ def main(args):
     else:
         im_list = [args.im_or_folder]
 
-    for video_name in im_list:
+    for i, video_name in enumerate(im_list):
         out_name = os.path.join(args.output_dir, os.path.basename(video_name))
-        print("Processing {}".format(video_name))
+        # check if out_name exists
+        if os.path.exists(out_name):
+            print("{} already exists, skip")
+            continue
+
+        print("Processing {} {}/{}".format(video_name, i, len(im_list)))
 
         boxes = []
         segments = []
