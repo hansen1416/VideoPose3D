@@ -2,3 +2,5 @@ venv/
 checkpoint/
 input_directory/
 output_directory/
+
+tmp*
