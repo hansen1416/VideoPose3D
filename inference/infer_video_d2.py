@@ -119,7 +119,7 @@ def main(args):
             print("{} already exists, skip")
             continue
 
-        print("Processing {} {}/{}".format(video_name, i, len(im_list)))
+        print("Processing {} {}".format(video_name, i))
 
         boxes = []
         segments = []
