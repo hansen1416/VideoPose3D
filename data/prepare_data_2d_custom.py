@@ -13,7 +13,7 @@ import sys
 import argparse
 from data_utils import suggest_metadata
 
-output_prefix_2d = "data_2d_custom_"
+# output_prefix_2d = "data_2d_custom_"
 
 
 def decode(filename):
@@ -116,11 +116,16 @@ if __name__ == "__main__":
 
     print("Saving...")
 
-    if not os.path.exists("custom_dataset"):
-        os.makedirs("custom_dataset")
+    output_dir = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "..", "results_dataset"
+    )
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     np.savez_compressed(
-        os.path.join("custom_dataset", output_prefix_2d + args.output),
+        # os.path.join("custom_dataset", output_prefix_2d + args.output),
+        os.path.join(output_dir, args.output),
         positions_2d=output,
         metadata=metadata,
     )
