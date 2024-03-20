@@ -119,6 +119,11 @@ def main(args):
             print("{} already exists, skip")
             continue
 
+        # check if file size 0
+        if os.stat(video_name).st_size == 0:
+            print("{} is empty, skip")
+            continue
+
         print("Processing {} {}".format(video_name, i))
 
         boxes = []
