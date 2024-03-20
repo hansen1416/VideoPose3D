@@ -58,7 +58,7 @@ def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_path):
     # get all files in the folder
     all_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)]
 
-    for filepath in all_files:
+    for i, filepath in enumerate(all_files):
         if not os.path.isfile(filepath):
             continue
 
@@ -78,6 +78,8 @@ def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_path):
             f"{target_path}",
             filepath,
         )
+
+        print(f"{target_path} uploaded {i}/{len(all_files)}")
 
 
 if __name__ == "__main__":
