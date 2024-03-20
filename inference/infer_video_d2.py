@@ -22,6 +22,11 @@ import argparse
 import sys
 import os
 import glob
+from dotenv import load_dotenv
+import oss2
+from oss2.credentials import EnvironmentVariableCredentialsProvider
+
+load_dotenv()  # take environment variables from .env.
 
 
 def parse_args():
@@ -129,6 +134,20 @@ def split_array(array, n):
     return pieces
 
 
+def get_bucket():
+    bucket_name = ("pose-daten",)
+    oss_endpoint = ("oss-ap-southeast-1.aliyuncs.com",)
+
+    # 使用环境变量中获取的RAM用户的访问密钥配置访问凭证。
+    auth = oss2.ProviderAuth(EnvironmentVariableCredentialsProvider())
+
+    # yourEndpoint填写Bucket所在地域对应的Endpoint。以华东1（杭州）为例，Endpoint填写为https://oss-cn-hangzhou.aliyuncs.com。
+    # 填写Bucket名称，并设置连接超时时间为30秒。
+    bucket = oss2.Bucket(auth, oss_endpoint, bucket_name, connect_timeout=30)
+
+    return bucket
+
+
 def main(args):
 
     cfg = get_cfg()
@@ -142,7 +161,18 @@ def main(args):
     else:
         im_list = [args.im_or_folder]
 
+    # check local generated results and skip if already exists
     output_generated = set([f.replace(".npz", "") for f in os.listdir(args.output_dir)])
+
+    # check oss and skip if already exists
+    bucket = get_bucket()
+
+    oss_prefix = "detectron2d/"
+
+    osskeys = [
+        obj.key.replace(".npz", "")
+        for obj in oss2.ObjectIterator(bucket, prefix=oss_prefix)
+    ]
 
     remin_video_list = []
 
@@ -150,6 +180,12 @@ def main(args):
         # if the basename of the video is already in the output directory, skip
         if os.path.basename(video_name) in output_generated:
             print("{} already generated, skip".format(video_name))
+            continue
+
+        if os.path.basename(video_name) in osskeys:
+            print(
+                f"{oss_prefix}{os.path.basename(video_name)}.npz already exists in oss, skipping."
+            )
             continue
 
         # if not exists, add to remin_video_list
@@ -165,6 +201,13 @@ def main(args):
         # check if out_name exists
         if os.path.exists(f"{out_name}.npz"):
             print("{} already exists, skip".format(out_name))
+            continue
+
+        # check if the file already exists in oss
+        if bucket.object_exists(f"{oss_prefix}{out_name}.npz"):
+            print(
+                f"{oss_prefix}{out_name}.npz already exists in oss, skipping. {i}/{len(remin_video_list)}"
+            )
             continue
 
         # check if file size 0
