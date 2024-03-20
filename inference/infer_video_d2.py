@@ -115,13 +115,17 @@ def main(args):
     for i, video_name in enumerate(im_list):
         out_name = os.path.join(args.output_dir, os.path.basename(video_name))
         # check if out_name exists
-        if os.path.exists(out_name):
+        if os.path.exists(f"{out_name}.npz"):
             print("{} already exists, skip")
             continue
 
         # check if file size 0
         if os.stat(video_name).st_size == 0:
             print("{} is empty, skip")
+            continue
+
+        if video_name.startswith("videos"):
+            print("illegal name, skip")
             continue
 
         print("Processing {} {}".format(video_name, i))
