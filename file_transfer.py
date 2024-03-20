@@ -40,11 +40,58 @@ def folder_downloader(bucket_name, oss_endpoint, oss_prefix, target_dir):
         print(f"Downloaded {osskey} to {target_path} {i}/{len(osskey_list)}")
 
 
+def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_path):
+
+    # 使用环境变量中获取的RAM用户的访问密钥配置访问凭证。
+    auth = oss2.ProviderAuth(EnvironmentVariableCredentialsProvider())
+
+    # yourEndpoint填写Bucket所在地域对应的Endpoint。以华东1（杭州）为例，Endpoint填写为https://oss-cn-hangzhou.aliyuncs.com。
+    # 填写Bucket名称，并设置连接超时时间为30秒。
+    bucket = oss2.Bucket(auth, oss_endpoint, bucket_name, connect_timeout=30)
+
+    folder_path = os.path.abspath(folder_path)
+
+    if not os.path.exists(folder_path):
+        print(f"{folder_path} does not exist")
+        return
+
+    # get all files in the folder
+    all_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)]
+
+    for filepath in all_files:
+        if not os.path.isfile(filepath):
+            continue
+
+        filename = os.path.basename(filepath)
+
+        if oss_path[-1] != "/":
+            oss_path += "/"
+
+        target_path = f"{oss_path}{filename}"
+
+        # check if the file already exists in oss
+        if bucket.object_exists(target_path):
+            # print(f"{self.process_idx}: {target_path} already exists in oss")
+            continue
+
+        bucket.put_object_from_file(
+            f"{target_path}",
+            filepath,
+        )
+
+
 if __name__ == "__main__":
 
-    folder_downloader(
+    # folder_downloader(
+    #     "pose-daten",
+    #     "oss-ap-southeast-1.aliyuncs.com",
+    #     "videos",
+    #     os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
+    # )
+
+    folder_uploader(
+        os.path.join(os.path.expanduser("~"), "VideoPose3D", "detectron2d"),
         "pose-daten",
         "oss-ap-southeast-1.aliyuncs.com",
-        "videos",
-        os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
+        "detectron2d",
     )
