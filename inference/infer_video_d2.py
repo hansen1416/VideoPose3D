@@ -47,6 +47,13 @@ def parse_args():
         default="mp4",
         type=str,
     )
+    parser.add_argument(
+        "--chunk-num",
+        dest="chunk_num",
+        help="select a chunk of videos to process (default: 0)",
+        default=0,
+        type=int,
+    )
     parser.add_argument("im_or_folder", help="image or folder of images", default=None)
     if len(sys.argv) == 1:
         parser.print_help()
@@ -99,6 +106,29 @@ def read_video(filename):
         yield np.frombuffer(data, dtype="uint8").reshape((h, w, 3))
 
 
+def split_array(array, n):
+    """Splits an array into n pieces as evenly as possible.
+
+    Args:
+        array: The array to split.
+        n: The number of pieces to split the array into.
+
+    Returns:
+        A list of lists, where each sublist is a piece of the original array.
+    """
+    chunk_size = len(array) // n  # Integer division for even floor
+    remainder = len(array) % n
+
+    pieces = []
+    start = 0
+    for i in range(n):
+        end = start + chunk_size + (1 if i < remainder else 0)
+        pieces.append(array[start:end])
+        start = end
+
+    return pieces
+
+
 def main(args):
 
     cfg = get_cfg()
@@ -112,7 +142,25 @@ def main(args):
     else:
         im_list = [args.im_or_folder]
 
-    for i, video_name in enumerate(im_list):
+    output_generated = set([f.replace(".npz", "") for f in os.listdir(args.output_dir)])
+
+    remin_video_list = []
+
+    for video_name in im_list:
+        # if the basename of the video is already in the output directory, skip
+        if os.path.basename(video_name) in output_generated:
+            print("{} already generated, skip".format(video_name))
+            continue
+
+        # if not exists, add to remin_video_list
+        remin_video_list.append(video_name)
+
+    # split `im_list` into 4 chunks
+    remin_video_list = split_array(remin_video_list, 4)
+    # get the chunk specified by `args.chunk_num`
+    remin_video_list = remin_video_list[args.chunk_num]
+
+    for i, video_name in enumerate(remin_video_list):
         out_name = os.path.join(args.output_dir, os.path.basename(video_name))
         # check if out_name exists
         if os.path.exists(f"{out_name}.npz"):
