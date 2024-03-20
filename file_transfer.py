@@ -71,7 +71,9 @@ def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_path):
 
         # check if the file already exists in oss
         if bucket.object_exists(target_path):
-            # print(f"{self.process_idx}: {target_path} already exists in oss")
+            print(
+                f"{target_path} already exists in oss, skipping. {i}/{len(all_files)}"
+            )
             continue
 
         bucket.put_object_from_file(
