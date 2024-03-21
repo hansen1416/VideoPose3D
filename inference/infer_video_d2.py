@@ -186,10 +186,8 @@ def main(args):
             print("{} already generated, skip".format(video_name))
             continue
 
-        if f"{base_name}.npz" in osskeys:
-            print(
-                f"{oss_prefix}{os.path.basename(video_name)}.npz already exists in oss, skipping."
-            )
+        if f"{oss_prefix}{base_name}.npz" in osskeys:
+            print(f"{oss_prefix}{base_name}.npz already exists in oss, skipping.")
             continue
 
         # if not exists, add to remin_video_list
