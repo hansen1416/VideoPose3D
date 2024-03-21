@@ -15,6 +15,9 @@ def folder_downloader(bucket_name, oss_endpoint, oss_prefix, target_dir):
     # 填写Bucket名称，并设置连接超时时间为30秒。
     bucket = oss2.Bucket(auth, oss_endpoint, bucket_name, connect_timeout=30)
 
+    if oss_prefix[-1] != "/":
+        oss_prefix += "/"
+
     # list all files in the oss_prefix
     osskey_list = [obj.key for obj in oss2.ObjectIterator(bucket, prefix=oss_prefix)]
 
@@ -86,12 +89,12 @@ def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_path):
 
 if __name__ == "__main__":
 
-    # folder_downloader(
-    #     "pose-daten",
-    #     "oss-ap-southeast-1.aliyuncs.com",
-    #     "videos",
-    #     os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
-    # )
+    folder_downloader(
+        "pose-daten",
+        "oss-ap-southeast-1.aliyuncs.com",
+        "videos",
+        os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
+    )
 
     folder_uploader(
         os.path.join(os.path.expanduser("~"), "VideoPose3D", "detectron2d"),
