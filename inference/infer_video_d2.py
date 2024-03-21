@@ -176,11 +176,10 @@ def main(args):
 
     remin_video_list = []
 
+    print(osskeys)
+
     for video_name in im_list:
         base_name = os.path.basename(video_name)
-
-        print(base_name)
-        print(oss_prefix)
 
         # if the basename of the video is already in the output directory, skip
         if base_name in output_generated:
