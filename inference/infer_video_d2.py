@@ -135,8 +135,8 @@ def split_array(array, n):
 
 
 def get_bucket():
-    bucket_name = ("pose-daten",)
-    oss_endpoint = ("oss-ap-southeast-1.aliyuncs.com",)
+    bucket_name = "pose-daten"
+    oss_endpoint = "oss-ap-southeast-1.aliyuncs.com"
 
     # 使用环境变量中获取的RAM用户的访问密钥配置访问凭证。
     auth = oss2.ProviderAuth(EnvironmentVariableCredentialsProvider())
