@@ -96,9 +96,9 @@ if __name__ == "__main__":
         os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
     )
 
-    # folder_uploader(
-    #     os.path.join(os.path.expanduser("~"), "VideoPose3D", "detectron2d"),
-    #     "pose-daten",
-    #     "oss-ap-southeast-1.aliyuncs.com",
-    #     "detectron2d",
-    # )
+    folder_uploader(
+        os.path.join(os.path.expanduser("~"), "VideoPose3D", "detectron2d"),
+        "pose-daten",
+        "oss-ap-southeast-1.aliyuncs.com",
+        "detectron2d",
+    )
