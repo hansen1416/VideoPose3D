@@ -176,7 +176,7 @@ def main(args):
 
     remin_video_list = []
 
-    print(osskeys)
+    # print(osskeys)
 
     for video_name in im_list:
         base_name = os.path.basename(video_name)
