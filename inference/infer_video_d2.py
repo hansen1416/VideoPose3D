@@ -177,12 +177,17 @@ def main(args):
     remin_video_list = []
 
     for video_name in im_list:
+        base_name = os.path.basename(video_name)
+
+        print(base_name)
+        print(oss_prefix)
+
         # if the basename of the video is already in the output directory, skip
-        if os.path.basename(video_name) in output_generated:
+        if base_name in output_generated:
             print("{} already generated, skip".format(video_name))
             continue
 
-        if os.path.basename(video_name) in osskeys:
+        if base_name in osskeys:
             print(
                 f"{oss_prefix}{os.path.basename(video_name)}.npz already exists in oss, skipping."
             )
@@ -192,7 +197,7 @@ def main(args):
         remin_video_list.append(video_name)
 
     # split `im_list` into 4 chunks
-    remin_video_list = split_array(remin_video_list, 8)
+    remin_video_list = split_array(remin_video_list, 4)
     # get the chunk specified by `args.chunk_num`
     remin_video_list = remin_video_list[args.chunk_num]
 
