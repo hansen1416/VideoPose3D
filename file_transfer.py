@@ -43,7 +43,7 @@ def folder_downloader(bucket_name, oss_endpoint, oss_prefix, target_dir):
         print(f"Downloaded {osskey} to {target_path} {i}/{len(osskey_list)}")
 
 
-def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_path):
+def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_prefix):
 
     # 使用环境变量中获取的RAM用户的访问密钥配置访问凭证。
     auth = oss2.ProviderAuth(EnvironmentVariableCredentialsProvider())
@@ -61,19 +61,21 @@ def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_path):
     # get all files in the folder
     all_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)]
 
+    osskeys = set([obj.key for obj in oss2.ObjectIterator(bucket, prefix=oss_prefix)])
+
     for i, filepath in enumerate(all_files):
         if not os.path.isfile(filepath):
             continue
 
         filename = os.path.basename(filepath)
 
-        if oss_path[-1] != "/":
-            oss_path += "/"
+        if oss_prefix[-1] != "/":
+            oss_prefix += "/"
 
-        target_path = f"{oss_path}{filename}"
+        target_path = f"{oss_prefix}{filename}"
 
         # check if the file already exists in oss
-        if bucket.object_exists(target_path):
+        if target_path in osskeys:
             print(
                 f"{target_path} already exists in oss, skipping. {i}/{len(all_files)}"
             )
