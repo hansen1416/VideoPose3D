@@ -2,7 +2,9 @@ venv/
 checkpoint/
 input_directory/
 output_directory/
+__pycache__/
 
 tmp*
 .env
 detectron2d/*.npz
+custom_dataset/*.npz

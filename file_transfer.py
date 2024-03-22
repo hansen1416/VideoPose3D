@@ -98,9 +98,23 @@ if __name__ == "__main__":
     #     os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
     # )
 
+    # folder_uploader(
+    #     os.path.join(os.path.expanduser("~"), "VideoPose3D", "detectron2d"),
+    #     "pose-daten",
+    #     "oss-ap-southeast-1.aliyuncs.com",
+    #     "detectron2d",
+    # )
+
     folder_uploader(
-        os.path.join(os.path.expanduser("~"), "VideoPose3D", "detectron2d"),
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), "custom_dataset"),
         "pose-daten",
         "oss-ap-southeast-1.aliyuncs.com",
-        "detectron2d",
+        "custom_dataset",
+    )
+
+    folder_downloader(
+        "pose-daten",
+        "oss-ap-southeast-1.aliyuncs.com",
+        "custom_dataset",
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), "custom_dataset"),
     )
