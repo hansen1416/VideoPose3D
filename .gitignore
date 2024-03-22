@@ -4,3 +4,5 @@ input_directory/
 output_directory/
 
 tmp*
+.env
+detectron2d/*.npz
