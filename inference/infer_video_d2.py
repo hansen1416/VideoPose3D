@@ -194,7 +194,7 @@ def main(args):
         remin_video_list.append(video_name)
 
     # split `im_list` into 4 chunks
-    remin_video_list = split_array(remin_video_list, 4)
+    # remin_video_list = split_array(remin_video_list, 4)
     # get the chunk specified by `args.chunk_num`
     # remin_video_list = remin_video_list[args.chunk_num]
 
