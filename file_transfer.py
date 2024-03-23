@@ -91,12 +91,12 @@ def folder_uploader(folder_path, bucket_name, oss_endpoint, oss_prefix):
 
 if __name__ == "__main__":
 
-    # folder_downloader(
-    #     "pose-daten",
-    #     "oss-ap-southeast-1.aliyuncs.com",
-    #     "videos",
-    #     os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
-    # )
+    folder_downloader(
+        "pose-daten",
+        "oss-ap-southeast-1.aliyuncs.com",
+        "videos",
+        os.path.join(os.path.expanduser("~"), "VideoPose3D", "videos"),
+    )
 
     # folder_uploader(
     #     os.path.join(os.path.expanduser("~"), "VideoPose3D", "detectron2d"),

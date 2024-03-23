@@ -27,7 +27,8 @@ from common.custom_dataset import CustomDataset
 
 """
 
-python run.py -d custom -arc 3,3,3,3,3 -c checkpoint --evaluate pretrained_h36m_detectron_coco.bin 
+python run.py -d 20240322-2086 -arc 3,3,3,3,3 
+-c checkpoint --evaluate pretrained_h36m_detectron_coco.bin 
 --render --viz-subject input_video.mp4
 --viz-action custom --viz-camera 0 
 --viz-video /home/ecs-user/VideoPose3D/videos/Banging Fist-30-0.avi 
