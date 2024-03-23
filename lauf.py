@@ -1,5 +1,14 @@
 import os
+import glob
 from oss2_uploader import folder_downloader, folder_uploader
+
+videos_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "videos")
+
+# iterat over all files in the videos directory, use glob.iglob()
+videos_list = glob.iglob(videos_dir + "/*.avi")
+
+for video in videos_list:
+    print(video)
 
 
 """
