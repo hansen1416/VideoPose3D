@@ -27,11 +27,11 @@ from common.custom_dataset import CustomDataset
 
 """
 
-python run.py -d 20240322-2086 -arc 3,3,3,3,3 
+python3 evaludate.py -d 20240322-2086 -arc 3,3,3,3,3 
 -c checkpoint --evaluate pretrained_h36m_detectron_coco.bin 
---render --viz-subject input_video.mp4
+--render --viz-subject Banging\ Fist-30-0.avi
 --viz-action custom --viz-camera 0 
---viz-video /home/ecs-user/VideoPose3D/videos/Banging Fist-30-0.avi 
+--viz-video /home/ecs-user/VideoPose3D/videos/Banging\ Fist-30-0.avi 
 --viz-output output.mp4 --viz-size 6
 """
 
@@ -1035,8 +1035,13 @@ if args.render:
 
     if args.viz_export is not None:
         print("Exporting joint positions to", args.viz_export)
+
+        data_dir = os.path.join(os.path.dirname(__file__), "results3d")
+        # if `data_dir`does not exist, create it
+        os.makedirs(data_dir, exist_ok=True)
+
         # Predictions are in camera space
-        np.save(args.viz_export, prediction)
+        np.save(os.path.join(data_dir, args.viz_export), prediction)
 
     if args.viz_output is not None:
         if ground_truth is not None:
