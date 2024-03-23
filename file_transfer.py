@@ -105,12 +105,12 @@ if __name__ == "__main__":
     #     "detectron2d",
     # )
 
-    folder_uploader(
-        os.path.join(os.path.dirname(os.path.realpath(__file__)), "custom_dataset"),
-        "pose-daten",
-        "oss-ap-southeast-1.aliyuncs.com",
-        "custom_dataset",
-    )
+    # folder_uploader(
+    #     os.path.join(os.path.dirname(os.path.realpath(__file__)), "custom_dataset"),
+    #     "pose-daten",
+    #     "oss-ap-southeast-1.aliyuncs.com",
+    #     "custom_dataset",
+    # )
 
     folder_downloader(
         "pose-daten",
